@@ -1,4 +1,6 @@
-﻿namespace VolleyballFinal.Models
+﻿using System.Runtime.CompilerServices;
+
+namespace VolleyballFinal.Models
 {
     public class Team
     {
@@ -10,3 +12,4 @@
         public string TeamDescription { get; set; }
     }
 }
+//this is a test!!
