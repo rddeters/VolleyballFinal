@@ -6,29 +6,14 @@ namespace VolleyballFinal.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        private TeamContext context { get; set; }
+        public HomeController(TeamContext ctx) => context = ctx;
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var teams = context.Teams.OrderBy(t => t.TeamName).ToList();
+            return View(teams);
         }
     }
 }
 
-//this is a test

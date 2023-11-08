@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using VolleyballFinal.Models;
+
 namespace VolleyballFinal
 {
     public class Program
@@ -8,6 +11,9 @@ namespace VolleyballFinal
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            //Add EF Core DI
+            builder.Services.AddDbContext<TeamContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("TeamContext")));
 
             var app = builder.Build();
 
