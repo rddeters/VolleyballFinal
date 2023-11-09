@@ -4,9 +4,6 @@ namespace VolleyballFinal.Controllers
 {
     public class StatisticController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //not sure what we will need here for the statistics. Discuss with River
     }
 }

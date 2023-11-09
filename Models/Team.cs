@@ -4,6 +4,7 @@ namespace VolleyballFinal.Models
 {
     public class Team
     {
+        public int Id { get; set; }
         public string TeamName { get; set; }
         public string Location { get; set; }
         public string LeagueType { get; set; }
@@ -12,4 +13,3 @@ namespace VolleyballFinal.Models
         public string TeamDescription { get; set; }
     }
 }
-//this is a test!!

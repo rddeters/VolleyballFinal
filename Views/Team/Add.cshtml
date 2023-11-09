@@ -1,5 +1,46 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
+
+//VERIFY THIS IS WHAT NEEDS TO BE IN THE INDEX OR IF IT NEEDS TO BE IN TEAM/ADD OR TEAM/INDEX
+
+@model List<Team>
 @{
+    ViewData["Title"] = "Teams";
 }
+
+<div class="mb-2">
+    <a asp-controller="Team" asp-action="Add"> Add New Team</a>
+</div>
+
+<table class="mb-2">
+    <thead>
+        <tr>
+            <th>Team Name:</th>
+            <th>Location:</th>
+            <th>League Type:</th>
+            <th>Category:</th>
+            <th>Gender:</th>
+            <th>Team Description:</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var team in Model)
+        {
+            <tr>
+                <td>@team.TeamName</td>
+                <td>@team.Location</td>
+                <td>@team.LeagueType</td>
+                <td>@team.Category</td>
+                <td>@team.Gender</td>
+                <td>@team.TeamDescription</td>
+
+                <td>
+                    <a asp-controller="Team" asp-action="Edit" asp-route-id="@Team.Id">Edit</a>
+                    <a asp-controller="Team" asp-action="Delete" asp-route-id="@Team.Id">Delete</a>
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
