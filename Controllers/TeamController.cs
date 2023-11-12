@@ -1,12 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using VolleyballFinal.Models;
 
 namespace VolleyballFinal.Controllers
 {
-    public class TeamController : Controller
+    public class TeamController: Controller
     {
         private TeamContext context { get; set; }
         public TeamController(TeamContext ctx) => context = ctx;
+
+        public IActionResult Index()
+        {
+            var teams = context.Teams.ToList(); 
+            return View(teams); 
+        }
 
         [HttpGet]
         public IActionResult Add()
