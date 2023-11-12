@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace VolleyballFinal.Models
 {
@@ -10,6 +10,5 @@ namespace VolleyballFinal.Models
         public string LeagueType { get; set; }
         public string Category { get; set; }
         public string Gender { get; set; }
-        public string TeamDescription { get; set; }
     }
 }
