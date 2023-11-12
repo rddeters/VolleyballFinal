@@ -16,3 +16,18 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.team-flag {
+    width: 150px;
+    height: auto;
+    margin: 10px;
+}
+
+.teams-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.team-item {
+    text-align: center; 
+}
