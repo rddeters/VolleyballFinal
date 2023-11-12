@@ -36,6 +36,14 @@ namespace VolleyballFinal
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            app.MapControllerRoute(
+                name: "teamRoute",
+                pattern: "{controller=Team}/{action=Index}/{id?}");
+
+            app.MapControllerRoute(
+                name: "playerRoute",
+                pattern: "{controller=Player}/{action=Index}/{id?}");
+
             app.Run();
         }
     }
