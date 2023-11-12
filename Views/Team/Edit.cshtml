@@ -1,7 +1,7 @@
-﻿@model Team
+@using VolleyballFinal.Models
+@model Team
 @{
-    string title = ViewBag.Action + "Team";
-    ViewData["Title"] = "title";
+    ViewData["Title"] = "Edit Team";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -33,11 +33,6 @@
     <div class="mb-3">
         <label asp-for="Gender" class="form-label">Gender</label>
         <input asp-for="Gender" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="TeamDescription" class="form-label">Team Description</label>
-        <input asp-for="TeamDescription" class="form-control" />
     </div>
 
     <input type="hidden" asp-for="Id" />
