@@ -1,8 +1,8 @@
-﻿namespace VolleyballFinal.Models
+namespace VolleyballFinal.Models
 {
     public class Player
     {
-        public int Id { get; set; }
+        public int PlayerId { get; set; }
         public string PlayerName { get; set; }
         public int Number { get; set; }
         public string TeamName { get; set; }
