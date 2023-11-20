@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using VolleyballFinal.Models;
 
@@ -11,9 +11,7 @@ namespace VolleyballFinal.Controllers
 
         public IActionResult Index()
         {
-            var teams = context.Teams.OrderBy(t => t.TeamName).ToList();
-            return View(teams);
+            return View();
         }
     }
 }
-
