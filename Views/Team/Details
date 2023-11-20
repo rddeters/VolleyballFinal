@@ -1,0 +1,41 @@
+@model VolleyballFinal.Models.TeamDetailsViewModel
+
+<h2>Team Details</h2>
+
+<dl class="row">
+    <dt class="col-sm-3">Team Name:</dt>
+    <dd class="col-sm-9">@Model.Team.TeamName</dd>
+
+    <dt class="col-sm-3">Location:</dt>
+    <dd class="col-sm-9">@Model.Team.Location</dd>
+
+    <dt class="col-sm-3">League Type:</dt>
+    <dd class="col-sm-9">@Model.Team.LeagueType</dd>
+
+    <dt class="col-sm-3">Category:</dt>
+    <dd class="col-sm-9">@Model.Team.Category</dd>
+
+    <dt class="col-sm-3">Gender:</dt>
+    <dd class="col-sm-9">@Model.Team.Gender</dd>
+</dl>
+
+<div class="player-photos-grid">
+    @foreach (var player in Model.Players)
+    {
+        <a asp-controller="Player" asp-action="Details" asp-route-id="@player.PlayerId" class="player-item">
+            <img class="player-photo" src="@Url.Content($"~/images/players/{player.PlayerName}.jpg")" alt="Photo of @player.PlayerName" title="@player.PlayerName, @player.Number, @player.Position" />
+        </a>
+    }
+</div>
+
+<div>
+    <div>
+        <a asp-controller="Team" asp-action="Edit" asp-route-id="@Model.Team.Id">Edit Team</a>
+    </div>
+    <div>
+        <a asp-controller="Team" asp-action="Delete" asp-route-id="@Model.Team.Id">Delete Team</a>
+    </div>
+    <div>
+        <a asp-controller="Team" asp-action="Index">Return to Team Home Page</a>
+    </div>
+</div>
