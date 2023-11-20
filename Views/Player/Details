@@ -1,0 +1,35 @@
+@model VolleyballFinal.Models.Player
+
+<h2>Player Details</h2>
+
+<dl class="row">
+    <dt class="col-sm-3">Player Name:</dt>
+    <dd class="col-sm-9">@Model.PlayerName</dd>
+
+    <dt class="col-sm-3">Number:</dt>
+    <dd class="col-sm-9">@Model.Number</dd>
+
+    <dt class="col-sm-3">Team Name:</dt>
+    <dd class="col-sm-9">@Model.TeamName</dd>
+
+    <dt class="col-sm-3">Position:</dt>
+    <dd class="col-sm-9">@Model.Position</dd>
+
+    <dt class="col-sm-3">Age:</dt>
+    <dd class="col-sm-9">@Model.Age</dd>
+
+    <dt class="col-sm-3">Height:</dt>
+    <dd class="col-sm-9">@Model.Height</dd>
+</dl>
+
+<div>
+    <div>
+        <a asp-controller="Player" asp-action="Edit" asp-route-id="@Model.PlayerId" class="btn btn-primary">Edit Player</a>
+    </div>
+    <div>
+        <a asp-controller="Player" asp-action="Delete" asp-route-id="@Model.PlayerId" class="btn btn-danger">Delete Player</a>
+    </div>
+    <div>
+        <a asp-controller="Team" asp-action="Index">Return to Team Home Page</a>
+    </div>
+</div>
