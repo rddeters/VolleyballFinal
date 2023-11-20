@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using VolleyballFinal.Models;
 
 namespace VolleyballFinal.Controllers
@@ -7,6 +7,17 @@ namespace VolleyballFinal.Controllers
     {
         private TeamContext context { get; set; }
         public PlayerController(TeamContext ctx) => context = ctx;
+
+        public IActionResult Details(int id)
+        {
+            var player = context.Player.FirstOrDefault(p => p.PlayerId == id);
+            if (player == null)
+            {
+                return NotFound();
+            }
+
+            return View(player);
+        }
 
         [HttpGet]
         public IActionResult Add()
@@ -28,14 +39,14 @@ namespace VolleyballFinal.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (player.Id == 0) context.Player.Add(player);
+                if (player.PlayerId == 0) context.Player.Add(player);
                 else context.Player.Update(player);
                 context.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                ViewBag.Action = (player.Id == 0) ? "Add" : "Edit";
+                ViewBag.Action = (player.PlayerId == 0) ? "Add" : "Edit";
                 return View(player);
             }
         }
