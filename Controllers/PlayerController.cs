@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VolleyballFinal.Models;
 
@@ -19,6 +20,7 @@ namespace VolleyballFinal.Controllers
             return View(player);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Add()
         {
@@ -26,6 +28,7 @@ namespace VolleyballFinal.Controllers
             return View("Edit", new Player());
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -33,7 +36,7 @@ namespace VolleyballFinal.Controllers
             var player = context.Player.Find(id);
             return View(player);
         }
-
+        
         [HttpPost]
         public IActionResult Edit(Player player)
         {
@@ -50,7 +53,7 @@ namespace VolleyballFinal.Controllers
                 return View(player);
             }
         }
-
+        [Authorize]
         [HttpGet]
         public IActionResult Delete(int id)
         {

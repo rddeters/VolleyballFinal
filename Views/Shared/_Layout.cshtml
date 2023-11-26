@@ -12,20 +12,49 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">VolleyballFinal</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Volleyball</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Team" asp-action="Details">Teams</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Player" asp-action="Details">Players</a>
                         </li>
                     </ul>
+                    <ul class="navbar-nav ms-auto">
+                        @using Microsoft.AspNetCore.Identity
+@using VolleyballFinal.Models.Admin;
+                        @inject SignInManager<User> signInManager
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <form method="post" asp-action="Logout" asp-controller="Account" asp-area="">
+                                    <input type="submit" value="Log Out" class="btn btn-outline-light" />
+                                    <span class="text-light">@User.Identity.Name</span>
+                                </form>
+                            </li>
+                        } 
+                        else
+                        {
+                            var action = ViewContext.RouteData.Values["action"]?.ToString();
+
+                            <li class="nav-item @Nav.Active("Register", action)">
+                                <a asp-action="Register" asp-contoller="Account" asp-area="" class="nav-link">
+                                    <span class="fas fa-edit"></span>&nbsp;Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="Login" asp-controller="Account" asp-area="" class="btn btn-outline-light">Log In</a>
+                            </li>
+                        }
+
                 </div>
             </div>
         </nav>

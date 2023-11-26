@@ -1,4 +1,4 @@
-namespace VolleyballFinal.Models
+﻿namespace VolleyballFinal.Models
 {
     public class TeamDetailsViewModel
     {

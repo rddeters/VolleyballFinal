@@ -1,10 +1,12 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 using System.Reflection;
+using VolleyballFinal.Models.Admin;
 
 namespace VolleyballFinal.Models
 {
-    public class TeamContext : DbContext
+    public class TeamContext : IdentityDbContext<User>
     {
         public TeamContext(DbContextOptions<TeamContext> options) : base(options) { }
 
@@ -14,6 +16,8 @@ namespace VolleyballFinal.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Team>().HasData(
                 // 2020 Olympics
                 new Team { Id = 1, TeamName = "Argentina", Location = "Argentina", LeagueType = "2020 Olympics", Category = "Indoor", Gender = "Men" },

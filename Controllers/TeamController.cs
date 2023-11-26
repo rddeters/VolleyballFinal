@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VolleyballFinal.Models;
 
@@ -50,7 +51,7 @@ namespace VolleyballFinal.Controllers
 
             return View(viewModel);
         }
-
+        [Authorize]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -74,7 +75,7 @@ namespace VolleyballFinal.Controllers
                 return View(team);
             }
         }
-
+        [Authorize]
         [HttpGet]
         public IActionResult Delete(int id)
         {

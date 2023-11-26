@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using VolleyballFinal.Models;
+using VolleyballFinal.Models.Admin;
 
 namespace VolleyballFinal
 {
@@ -8,6 +10,8 @@ namespace VolleyballFinal
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<TeamContext>().AddDefaultTokenProviders();
 
             builder.Services.AddDbContext<TeamContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("TeamContext")));
             builder.Services.AddControllersWithViews();
@@ -25,6 +29,7 @@ namespace VolleyballFinal
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
