@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using VolleyballFinal.Models.Admin;
 
 namespace VolleyballFinal.Controllers.Admin
 {
+    [Authorize(Roles = "Admin")]
+    [Area("Admin")]
     public class AdminController : Controller
     {
         private UserManager<User> userManager;
