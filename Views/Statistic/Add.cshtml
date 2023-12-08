@@ -1,0 +1,51 @@
+@using VolleyballFinal.Models
+@model VolleyballFinal.Models.Statistic
+@{
+    ViewData["Title"] = "Add Statistic";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Add" method="post">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="PlayerName" class="form-label">Player Name</label>
+        <input asp-for="PlayerName" class="form-control" />
+        <span asp-validation-for="PlayerName" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+        <label asp-for="TotalPoints" class="form-label">Total Attack Points</label>
+        <input asp-for="TotalPoints" class="form-control" />
+        <span asp-validation-for="TotalPoints" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="AttackPoints" class="form-label">Total Kills</label>
+        <input asp-for="AttackPoints" class="form-control" />
+        <span asp-validation-for="AttackPoints" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="BlockPoints" class="form-label">Block Points</label>
+        <input asp-for="BlockPoints" class="form-control" />
+        <span asp-validation-for="BlockPoints" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ServePoints" class="form-label">Service Aces</label>
+        <input asp-for="ServePoints" class="form-control" />
+        <span asp-validation-for="ServePoints" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Efficiency" class="form-label">Efficiency Percentage</label>
+        <input asp-for="Efficiency" class="form-control" />
+        <span asp-validation-for="Efficiency" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add</button>
+    <a asp-controller="Statistic" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
