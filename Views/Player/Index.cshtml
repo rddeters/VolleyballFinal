@@ -1,0 +1,33 @@
+@model IEnumerable<VolleyballFinal.Models.Player>
+
+<div class="main-wrapper">
+    <div class="sidebar">
+        <h3>Filter by Position</h3>
+        <ul>
+            <li><a href="/Player/FilterByPosition?positiontype=all">All</a></li>
+            <li><a href="/Player/FilterByPosition?positiontype=Libero">Libero</a></li>
+            <li><a href="/Player/FilterByPosition?positiontype=Middle Blocker">Middle Blocker</a></li>
+            <li><a href="/Player/FilterByPosition?positiontype=Opposite Hitter">Opposite Hitter</a></li>
+            <li><a href="/Player/FilterByPosition?positiontype=Outside Hitter">Outside Hitter</a></li>
+            <li><a href="/Player/FilterByPosition?positiontype=Setter">Setter</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        @foreach (var player in Model)
+        {
+            <div class="responsive">
+                <div class="gallery">
+                    <a asp-controller="Player" asp-action="Details" asp-route-id="@player.PlayerId">
+                        <img src="@Url.Content($"~/images/players/{player.PlayerName}.jpg")" alt="Photo of @player.PlayerName" />
+                    </a>
+                    <div class="desc">@player.PlayerName</div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="clearfix"></div>
+
+</div>
+
+<div style="clear:both;"></div>
