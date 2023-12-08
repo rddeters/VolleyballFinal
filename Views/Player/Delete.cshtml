@@ -1,4 +1,4 @@
-﻿@using VolleyballFinal.Models
+@using VolleyballFinal.Models
 @model Player
 @{
     ViewData["Title"] = "Delete Player";
@@ -6,11 +6,11 @@
 
 <h2>Confirm Deletion</h2>
 
-<form asp-action="Delete" method="post">
+<p>Are you sure you want to delete the player <strong>@Model.PlayerName</strong>?</p>
 
+<form asp-action="Delete" method="post">
     <input type="hidden" asp-for="PlayerId" />
 
-    <button type="submit" class="btn btn-primary">Delete</button>
-    <a asp-controller="Player" asp-action="Details"
-       class="btn btn-primary">Cancel</a>
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-controller="Player" asp-action="Details" asp-route-id="@Model.PlayerId" class="btn btn-secondary">Cancel</a>
 </form>
