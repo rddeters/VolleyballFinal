@@ -1,23 +1,25 @@
 @model IEnumerable<VolleyballFinal.Models.Team>
 
-<div class="sidebar">
-    <h3>Filter by League</h3>
-    <ul>
-        <li><a href="/Team/FilterByLeague?leaguetype=all">All</a></li>
-        <li><a href="/Team/FilterByLeague?leaguetype=2020 Olympics">2020 Olympics</a></li>
-        <li><a href="/Team/FilterByLeague?leaguetype=Big 12 Conference">Big 12 Conference</a></li>
-    </ul>
-</div>
+<div class="main-wrapper">
+    <div class="sidebar">
+        <h3>Filter by League</h3>
+        <ul>
+            <li><a href="/Team/FilterByLeague?leaguetype=all">All</a></li>
+            <li><a href="/Team/FilterByLeague?leaguetype=2020 Olympics">2020 Olympics</a></li>
+            <li><a href="/Team/FilterByLeague?leaguetype=Big 12 Conference">Big 12 Conference</a></li>
+        </ul>
+    </div>
 
-<div class="main-content">
-    <div class="teams-container">
-        @foreach (var team in Model)
-        {
-            <a asp-controller="Team" asp-action="Details" asp-route-id="@team.TeamName" class="team-item">
-                <img class="team-flag" src="@Url.Content($"~/images/teams/{team.TeamName}.jpg")" alt="Logo of @team.TeamName" title="@team.TeamName, @team.Location, @team.LeagueType" />
-                <h3>@team.TeamName</h3>
-            </a>
-        }
+    <div class="main-content">
+        <div class="teams-container">
+            @foreach (var team in Model)
+            {
+                <a asp-controller="Team" asp-action="Details" asp-route-id="@team.Id" class="team-item">
+                    <img class="team-flag" src="@Url.Content($"~/images/teams/{team.TeamName}.jpg")" alt="Logo of @team.TeamName" title="@team.TeamName, @team.Location, @team.LeagueType" />
+                    <h3>@team.TeamName</h3>
+                </a>
+            }
+        </div>
     </div>
 </div>
 
