@@ -9,6 +9,30 @@ namespace VolleyballFinal.Controllers
         private TeamContext context { get; set; }
         public PlayerController(TeamContext ctx) => context = ctx;
 
+        public IActionResult Index()
+        {
+            var players = context.Player.ToList();
+            return View(players);
+        }
+
+        public IActionResult FilterByPosition(string positiontype)
+        {
+            IEnumerable<Player> players;
+
+            if (positiontype.ToLower() == "all")
+            {
+                players = context.Player.OrderBy(p => p.PlayerName).ToList();
+            }
+            else
+            {
+                positiontype = positiontype.ToLower();
+                players = context.Player.Where(p => p.Position.ToLower() == positiontype)
+                                     .OrderBy(p => p.PlayerName).ToList();
+            }
+
+            return View("Index", players);
+        }
+
         public IActionResult Details(int id)
         {
             var player = context.Player.FirstOrDefault(p => p.PlayerId == id);
@@ -18,14 +42,6 @@ namespace VolleyballFinal.Controllers
             }
 
             return View(player);
-        }
-
-        [Authorize]
-        [HttpGet]
-        public IActionResult Add()
-        {
-            ViewBag.Action = "Add";
-            return View("Edit", new Player());
         }
 
         [Authorize]
