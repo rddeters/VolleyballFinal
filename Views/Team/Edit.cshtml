@@ -13,26 +13,31 @@
     <div class="mb-3">
         <label asp-for="TeamName" class="form-label">Team Name</label>
         <input asp-for="TeamName" class="form-control" />
+        <span asp-validation-for="TeamName" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="Location" class="form-label">Location</label>
         <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="LeagueType" class="form-label">League Type</label>
         <input asp-for="LeagueType" class="form-control" />
+        <span asp-validation-for="LeagueType" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="Category" class="form-label">Category</label>
         <input asp-for="Category" class="form-control" />
+        <span asp-validation-for="Category" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="Gender" class="form-label">Gender</label>
         <input asp-for="Gender" class="form-control" />
+        <span asp-validation-for="Gender" class="text-danger"></span>
     </div>
 
     <input type="hidden" asp-for="Id" />
