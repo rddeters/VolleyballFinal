@@ -1,4 +1,4 @@
-﻿@model VolleyballFinal.Models.Player
+@model VolleyballFinal.Models.Player
 
 <h2>Player Details</h2>
 
@@ -24,13 +24,12 @@
 
 <div>
     <div>
+        <a asp-controller="Statistic" asp-action="Details" asp-route-id="@Model.PlayerId" class="btn btn-success">View Player Stastics</a>
+    </div>
+    <div>
         <a asp-controller="Player" asp-action="Edit" asp-route-id="@Model.PlayerId" class="btn btn-primary">Edit Player</a>
     </div>
     <div>
         <a asp-controller="Player" asp-action="Delete" asp-route-id="@Model.PlayerId" class="btn btn-danger">Delete Player</a>
     </div>
-    <div>
-        <a asp-controller="Team" asp-action="Index">Return to Team Home Page</a>
-    </div>
 </div>
-
