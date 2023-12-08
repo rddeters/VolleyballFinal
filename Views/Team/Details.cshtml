@@ -19,23 +19,26 @@
     <dd class="col-sm-9">@Model.Team.Gender</dd>
 </dl>
 
-<div class="player-photos-grid">
-    @foreach (var player in Model.Players)
+
+<div class="players-container">
+    @foreach (var player in @Model.Players)
     {
-        <a asp-controller="Player" asp-action="Details" asp-route-id="@player.PlayerId" class="player-item">
-            <img class="player-photo" src="@Url.Content($"~/images/players/{player.PlayerName}.jpg")" alt="Photo of @player.PlayerName" title="@player.PlayerName, @player.Number, @player.Position" />
-        </a>
+        <div class="responsive">
+            <div class="gallery">
+                <a asp-controller="Player" asp-action="Details" asp-route-id="@player.PlayerId">
+                    <img src ="@Url.Content($"~/images/players/{player.PlayerName}.jpg")" alt="Photo of @player.PlayerName" title="@player.Number, @player.Position" />
+                </a>
+                <div class="desc">@player.PlayerName</div>
+            </div>
+        </div>
     }
 </div>
 
 <div>
     <div>
-        <a asp-controller="Team" asp-action="Edit" asp-route-id="@Model.Team.Id">Edit Team</a>
+        <a asp-controller="Team" asp-action="Edit" asp-route-id="@Model.Team.Id" class="btn btn-primary">Edit Team</a>
     </div>
     <div>
-        <a asp-controller="Team" asp-action="Delete" asp-route-id="@Model.Team.Id">Delete Team</a>
-    </div>
-    <div>
-        <a asp-controller="Team" asp-action="Index">Return to Team Home Page</a>
+        <a asp-controller="Team" asp-action="Delete" asp-route-id="@Model.Team.Id" class="btn btn-danger">Delete Team</a>
     </div>
 </div>
