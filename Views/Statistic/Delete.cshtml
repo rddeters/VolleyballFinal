@@ -1,0 +1,17 @@
+@using VolleyballFinal.Models
+@model Statistic
+@{
+    ViewData["Title"] = "Delete Statistic";
+}
+
+<h2>Confirm Deletion</h2>
+
+
+<form asp-action="Delete" method="post">
+
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-primary">Delete</button>
+    <a asp-controller="Team" asp-action="Index"
+       class="btn btn-primary">Cancel</a>
+</form>
