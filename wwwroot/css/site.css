@@ -17,19 +17,109 @@ body {
   margin-bottom: 60px;
 }
 
-.team-flag {
-    width: 150px;
-    height: auto;
-    margin: 10px;
-}
-
 .teams-container {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+    gap: 15px; 
+    padding: 10px;
 }
 
 .team-item {
-    text-align: center; 
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; 
+}
+
+.team-flag {
+    width: 90%; 
+    height: auto; 
+    object-fit: cover;
+}
+
+div.gallery {
+    border: 1px solid #ccc;
+}
+
+    div.gallery:hover {
+        border: 1px solid #777;
+    }
+
+    div.gallery img {
+        width: 100%;
+        height: 200px; /* Fixed height */
+        object-fit: contain; /* Ensures the image is scaled to fit within the box, maintaining its aspect ratio */
+        background-color: #f4f4f4; /* Optional: background color for empty space around the image */
+    }
+
+div.desc {
+    padding: 15px;
+    text-align: center;
+}
+
+.responsive {
+    padding: 0 6px;
+    float: left;
+    width: 24.99999%;
+}
+
+@media only screen and (max-width: 700px) {
+    .responsive {
+        width: 49.99999%;
+        margin: 6px 0;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .responsive {
+        width: 100%;
+    }
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
 
+.main-wrapper {
+    display: flex;
+}
+
+.sidebar {
+    width: 200px;
+    padding: 20px;
+    margin-right: 20px;
+    background-color: #f4f4f4;
+    border-right: 1px solid #ddd;
+}
+
+    .sidebar h3 {
+    margin-bottom: 15px;
+    }
+
+    .sidebar ul {
+    list-style: none;
+    padding: 0;
+    }
+
+    .sidebar ul li {
+    margin-bottom: 10px;
+    }
+
+    .sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s;
+    }
+
+    .sidebar ul li a:hover {
+        color: #007bff;
+    }
+
+.main-content, .players-container {
+    flex-grow: 1;
+}
