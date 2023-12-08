@@ -1,0 +1,35 @@
+@model VolleyballFinal.Models.Statistic
+
+<h2>Player Statistics</h2>
+
+<dl class="row">
+    <dt class="col-sm-3">Player Name:</dt>
+    <dd class="col-sm-9">@Model.PlayerName</dd>
+
+    <dt class="col-sm-3">Total Attack Points:</dt>
+    <dd class="col-sm-9">@Model.TotalPoints</dd>
+
+    <dt class="col-sm-3">Total Kills:</dt>
+    <dd class="col-sm-9">@Model.AttackPoints</dd>
+
+    <dt class="col-sm-3">Total Block Points:</dt>
+    <dd class="col-sm-9">@Model.BlockPoints</dd>
+
+    <dt class="col-sm-3">Total Service Aces:</dt>
+    <dd class="col-sm-9">@Model.ServePoints</dd>
+
+    <dt class="col-sm-3">Efficiency Percentage:</dt>
+    <dd class="col-sm-9">@Model.Efficiency</dd>
+</dl>
+
+<div>
+    <div>
+        <a asp-controller="Statistic" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit Statistic</a>
+    </div>
+    <div>
+        <a asp-controller="Statistic" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete Stastic</a>
+    </div>
+    <div>
+        <a asp-controller="Statistic" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-success">Add Stastic</a>
+    </div>
+</div>
