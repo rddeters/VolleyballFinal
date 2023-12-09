@@ -70,7 +70,7 @@ namespace VolleyballFinal.Controllers.Admin
                     }
                 }
             }
-            ModelState.AddModelError("", "Invalid username/password.");
+            ModelState.AddModelError("", "Invalid username or password.");
             return View(model);
         }
 
@@ -80,7 +80,5 @@ namespace VolleyballFinal.Controllers.Admin
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-
-        //the Register(), LogIn() and LogOut() methods go here
     }
 }

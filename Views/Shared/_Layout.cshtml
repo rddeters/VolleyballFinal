@@ -33,15 +33,16 @@
                             <a class="nav-link text-dark" asp-controller="Player" asp-action="Index">Players</a>
                         </li>
                     </ul>
+                    <!--LOG IN AREA STARTS HERE-->
                     <ul class="navbar-nav ms-auto">
                         @using Microsoft.AspNetCore.Identity
-@using VolleyballFinal.Models.Admin;
+                        @using VolleyballFinal.Models.Admin;
                         @inject SignInManager<User> signInManager
                         @if (signInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                <form method="post" asp-action="Logout" asp-controller="Account" asp-area="">
-                                    <input type="submit" value="Log Out" class="btn btn-outline-light" />
+                                <form method="post" asp-action="Logout" asp-controller="Account" asp-area="Admin">
+                                    <input type="submit" value="Log Out" class="btn btn-outline" />
                                     <span class="text-light">@User.Identity.Name</span>
                                 </form>
                             </li>
@@ -55,10 +56,9 @@
                                     <span class="fas fa-edit"></span>&nbsp;Register</a>
                             </li>
                             <li class="nav-item">
-                                <a asp-action="LogIn" asp-controller="Account" class="btn btn-outline-light">Log In</a>
+                                <a asp-area="Admin" asp-controller="Account" asp-action="LogIn" class="btn btn-outline">Log In</a>
                             </li>
                         }
-
                 </div>
             </div>
         </nav>

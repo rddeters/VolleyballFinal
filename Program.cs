@@ -44,6 +44,10 @@ namespace VolleyballFinal
                 name: "playerRoute",
                 pattern: "{controller=Player}/{action=Index}/{id?}");
 
+            app.MapControllerRoute(
+                name: "adminRoute",
+                pattern: "{controller=Admin}/{action=LogIn}");
+
             app.Run();
         }
     }
