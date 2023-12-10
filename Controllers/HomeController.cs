@@ -13,5 +13,15 @@ namespace VolleyballFinal.Controllers
         {
             return View();
         }
+
+        public IActionResult Error()
+        {
+            var viewModel = new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
+        }
+
     }
 }
