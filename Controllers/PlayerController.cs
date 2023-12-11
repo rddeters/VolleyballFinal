@@ -1,17 +1,18 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VolleyballFinal.Controllers.Service;
 using VolleyballFinal.Models;
 
 namespace VolleyballFinal.Controllers
 {
     public class PlayerController : Controller
     {
-        private readonly TeamContext context;
+        private readonly PlayerService _playerService;
         private readonly ILogger<PlayerController> _logger;
 
-        public PlayerController(TeamContext ctx, ILogger<PlayerController> logger)
+        public PlayerController(PlayerService playerService, ILogger<PlayerController> logger)
         {
-            context = ctx;
+            _playerService = playerService;
             _logger = logger;
         }
 
@@ -19,37 +20,26 @@ namespace VolleyballFinal.Controllers
         {
             try
             {
-                var players = context.Player.ToList();
+                var players = _playerService.GetAllPlayers();
                 return View(players);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while processing request in PlayerController");
+                _logger.LogError(ex, "Error in Index action of PlayerController");
                 return RedirectToAction("Error", "Home");
             }
         }
 
         public IActionResult FilterByPosition(string positiontype)
         {
-            IEnumerable<Player> players;
             try
             {
-                if (positiontype.ToLower() == "all")
-                {
-                    players = context.Player.OrderBy(p => p.PlayerName).ToList();
-                }
-                else
-                {
-                    positiontype = positiontype.ToLower();
-                    players = context.Player.Where(p => p.Position.ToLower() == positiontype)
-                                         .OrderBy(p => p.PlayerName).ToList();
-                }
-
+                var players = _playerService.GetPlayersByPosition(positiontype);
                 return View("Index", players);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while processing request in PlayerController");
+                _logger.LogError(ex, "Error in FilterByPosition action of PlayerController");
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -58,17 +48,13 @@ namespace VolleyballFinal.Controllers
         {
             try
             {
-                var player = context.Player.FirstOrDefault(p => p.PlayerId == id);
-                if (player == null)
-                {
-                    return NotFound();
-                }
-
+                var player = _playerService.GetPlayerById(id);
+                if (player == null) return NotFound();
                 return View(player);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while processing request in PlayerController");
+                _logger.LogError(ex, "Error in Details action of PlayerController");
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -77,11 +63,12 @@ namespace VolleyballFinal.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            ViewBag.Action = "Edit";
-            var player = context.Player.Find(id);
+            var player = id == 0 ? new Player() : _playerService.GetPlayerById(id);
+            if (player == null && id != 0) return NotFound();
             return View(player);
         }
-        
+
+        [Authorize]
         [HttpPost]
         public IActionResult Edit(Player player)
         {
@@ -89,20 +76,14 @@ namespace VolleyballFinal.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (player.PlayerId == 0) context.Player.Add(player);
-                    else context.Player.Update(player);
-                    context.SaveChanges();
-                    return RedirectToAction("Index", "Player");
+                    _playerService.AddOrUpdatePlayer(player);
+                    return RedirectToAction("Index");
                 }
-                else
-                {
-                    ViewBag.Action = (player.PlayerId == 0) ? "Add" : "Edit";
-                    return View(player);
-                }
+                return View(player);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while processing request in PlayerController");
+                _logger.LogError(ex, "Error in Edit action of PlayerController");
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -113,28 +94,31 @@ namespace VolleyballFinal.Controllers
         {
             try
             {
-                var player = context.Player.Find(id);
+                var player = _playerService.GetPlayerById(id);
+                if (player == null) return NotFound();
                 return View(player);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while processing request in PlayerController");
+                _logger.LogError(ex, "Error in Delete[GET] action of PlayerController");
                 return RedirectToAction("Error", "Home");
             }
         }
 
-        [HttpPost]
-        public IActionResult Delete(Player player)
+        [Authorize]
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
         {
             try
             {
-                context.Player.Remove(player);
-                context.SaveChanges();
-                return RedirectToAction("Index", "Player");
+                var player = _playerService.GetPlayerById(id);
+                if (player == null) return NotFound();
+                _playerService.DeletePlayer(player);
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while processing request in PlayerController");
+                _logger.LogError(ex, "Error in Delete[POST] action of PlayerController");
                 return RedirectToAction("Error", "Home");
             }
         }
