@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using VolleyballFinal.Models;
 
 namespace VolleyballFinal.Controllers.Service
@@ -37,7 +37,8 @@ namespace VolleyballFinal.Controllers.Service
 
         public void AddOrUpdatePlayer(Player player)
         {
-            if (player.PlayerId == 0)
+            var existingPlayer = _context.Player.Find(player.PlayerId);
+            if (existingPlayer == null)
             {
                 _context.Player.Add(player);
             }
