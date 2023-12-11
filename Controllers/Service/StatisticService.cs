@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using VolleyballFinal.Models;
 
 namespace VolleyballFinal.Controllers.Service
@@ -24,7 +24,9 @@ namespace VolleyballFinal.Controllers.Service
 
         public void AddOrUpdateStatistic(Statistic statistic)
         {
-            if (statistic.Id == 0)
+
+            var existingStatistic = _context.Statistics.Find(statistic.Id);
+            if (existingStatistic == null)
             {
                 _context.Statistics.Add(statistic);
             }
