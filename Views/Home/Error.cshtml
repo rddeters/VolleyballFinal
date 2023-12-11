@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Error";
+}
+
+<h2>Oops, something went wrong.</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>Request ID:</strong> @Model.RequestId
+    </p>
+}
+
+<p>
+    We're sorry, but something went wrong. Please try again later, or contact support if the problem persists.
+</p>
