@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using VolleyballFinal.Models;
 using VolleyballFinal.Models.Admin;
+using Microsoft.Extensions.Configuration;
 
 namespace VolleyballFinal
 {
@@ -15,6 +16,9 @@ namespace VolleyballFinal
 
             builder.Services.AddDbContext<TeamContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("TeamContext")));
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<TeamContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("TeamContext")));
 
             var app = builder.Build();
 
@@ -57,6 +61,14 @@ namespace VolleyballFinal
             app.MapControllerRoute(
                 name: "adminRoute",
                 pattern: "{controller=Admin}/{action=LogIn}");
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers(); 
+                endpoints.MapControllerRoute( 
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
 
             app.Run();
         }
