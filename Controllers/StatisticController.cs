@@ -1,17 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using VolleyballFinal.Controllers.Service;
 using VolleyballFinal.Models;
 
 namespace VolleyballFinal.Controllers
 {
     public class StatisticController : Controller
     {
-        private TeamContext context { get; set; }
+        private readonly StatisticService _statisticService;
         private readonly ILogger<StatisticController> _logger;
 
-        public StatisticController(TeamContext ctx, ILogger<StatisticController> logger)
+        public StatisticController(StatisticService statisticService, ILogger<StatisticController> logger)
         {
-            context = ctx;
+            _statisticService = statisticService;
             _logger = logger;
         }
 
@@ -19,20 +20,21 @@ namespace VolleyballFinal.Controllers
         {
             try
             {
-                var players = context.Player.ToList();
-                return View(players);
+                var statistics = _statisticService.GetAllStatistics();
+                return View(statistics);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while processing request in PlayerController");
+                _logger.LogError(ex, "Error in Index action of StatisticController");
                 return RedirectToAction("Error", "Home");
             }
         }
+
         public IActionResult Details(int id)
         {
             try
             {
-                var statistic = context.Statistics.FirstOrDefault(s => s.Id == id);
+                var statistic = _statisticService.GetStatisticById(id);
                 if (statistic == null)
                 {
                     return RedirectToAction(nameof(Add), new { id = id });
@@ -42,7 +44,7 @@ namespace VolleyballFinal.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while processing request in StatisticController");
+                _logger.LogError(ex, "Error in Details action of StatisticController");
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -52,7 +54,7 @@ namespace VolleyballFinal.Controllers
         {
             try
             {
-                var statistic = context.Statistics.Find(id);
+                var statistic = _statisticService.GetStatisticById(id);
                 if (statistic == null)
                 {
                     return NotFound();
@@ -62,7 +64,7 @@ namespace VolleyballFinal.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while processing request in PlayerController");
+                _logger.LogError(ex, "Error in Edit[GET] action of StatisticController");
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -74,15 +76,14 @@ namespace VolleyballFinal.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    context.Update(statistic);
-                    context.SaveChanges();
+                    _statisticService.AddOrUpdateStatistic(statistic);
                     return RedirectToAction(nameof(Details), new { id = statistic.Id });
                 }
                 return View(statistic);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while processing request in PlayerController");
+                _logger.LogError(ex, "Error in Edit[POST] action of StatisticController");
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -92,7 +93,7 @@ namespace VolleyballFinal.Controllers
         {
             try
             {
-                var statistic = context.Statistics.Find(id);
+                var statistic = _statisticService.GetStatisticById(id);
                 if (statistic == null)
                 {
                     return NotFound();
@@ -102,7 +103,7 @@ namespace VolleyballFinal.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while processing request in PlayerController");
+                _logger.LogError(ex, "Error in Delete[GET] action of StatisticController");
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -112,14 +113,18 @@ namespace VolleyballFinal.Controllers
         {
             try
             {
-                var statistic = context.Statistics.Find(id);
-                context.Statistics.Remove(statistic);
-                context.SaveChanges();
+                var statistic = _statisticService.GetStatisticById(id);
+                if (statistic == null)
+                {
+                    return NotFound();
+                }
+
+                _statisticService.DeleteStatistic(statistic);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while processing request in PlayerController");
+                _logger.LogError(ex, "Error in Delete[POST] action of StatisticController");
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -139,7 +144,7 @@ namespace VolleyballFinal.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while processing request in StatisticController");
+                _logger.LogError(ex, "Error in Add[GET] action of StatisticController");
                 return RedirectToAction("Error", "Home");
             }
         }
@@ -147,14 +152,20 @@ namespace VolleyballFinal.Controllers
         [HttpPost]
         public IActionResult Add(Statistic statistic)
         {
-            if (ModelState.IsValid)
+            try
             {
-                context.Add(statistic);
-                context.SaveChanges();
-                return RedirectToAction(nameof(Details), new { id = statistic.Id });
+                if (ModelState.IsValid)
+                {
+                    _statisticService.AddOrUpdateStatistic(statistic);
+                    return RedirectToAction(nameof(Details), new { id = statistic.Id });
+                }
+                return View(statistic);
             }
-            return View(statistic);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in Add[POST] action of StatisticController");
+                return RedirectToAction("Error", "Home");
+            }
         }
-
     }
 }
