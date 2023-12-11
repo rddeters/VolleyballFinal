@@ -1,159 +1,156 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VolleyballFinal.Controllers.Service;
 using VolleyballFinal.Models;
 
-namespace VolleyballFinal.Controllers
+public class TeamController : Controller
 {
-    public class TeamController : Controller
+    private readonly TeamService _teamService;
+    private readonly ILogger<TeamController> _logger;
+
+    public TeamController(TeamService teamService, ILogger<TeamController> logger)
     {
-        private readonly TeamContext context;
-        private readonly ILogger<TeamController> _logger;
+        _teamService = teamService;
+        _logger = logger;
 
-        public TeamController(TeamContext ctx, ILogger<TeamController> logger)
+    }
+
+    public IActionResult Index()
+    {
+        try
         {
-            context = ctx;
-            _logger = logger;
+            var teams = _teamService.GetAllTeams();
+            return View(teams);
         }
-
-        public IActionResult Index()
+        catch (Exception ex)
         {
-            try
-            {
-                var teams = context.Teams.ToList();
-                return View(teams);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error in Index action of TeamController");
-                return RedirectToAction("Error", "Home");
-            }
+            _logger.LogError(ex, "Error in Index action of TeamController");
+            return RedirectToAction("Error", "Home");
         }
+    }
 
-        public IActionResult FilterByLeague(string leaguetype)
+    public IActionResult FilterByLeague(string leaguetype)
+    {
+        try
         {
-            try
-            {
-                IEnumerable<Team> teams;
-
-                if (leaguetype.ToLower() == "all")
-                {
-                    teams = context.Teams.OrderBy(t => t.TeamName).ToList();
-                }
-                else
-                {
-                    leaguetype = leaguetype.ToLower();
-                    teams = context.Teams.Where(t => t.LeagueType.ToLower() == leaguetype)
-                                         .OrderBy(t => t.TeamName).ToList();
-                }
-
-                return View("Index", teams);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while processing request in TeamController");
-                return RedirectToAction("Error", "Home");
-            } 
+            var teams = _teamService.GetTeamsByLeague(leaguetype);
+            return View("Index", teams);
         }
-
-        public IActionResult Details(int id)
+        catch (Exception ex)
         {
-            try
-            {
-                var team = context.Teams.FirstOrDefault(t => t.Id == id);
-                if (team == null)
-                {
-                    return NotFound();
-                }
-
-                var players = context.Player.Where(p => p.TeamName == team.TeamName).ToList();
-
-                var viewModel = new TeamDetailsViewModel
-                {
-                    Team = team,
-                    Players = players
-                };
-
-                return View(viewModel);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while processing request in TeamController");
-                return RedirectToAction("Error", "Home");
-            }
+            _logger.LogError(ex, "Error in FilterByLeague action of TeamController");
+            return RedirectToAction("Error", "Home");
         }
+    }
 
-        [Authorize]
-        [HttpGet]
-        public IActionResult Edit(int id)
+    public IActionResult Details(int id)
+    {
+        try
         {
-            try
+            var team = _teamService.GetTeam(id);
+            if (team == null)
             {
-                ViewBag.Action = "Edit";
-                var team = context.Teams.Find(id);
-                return View(team);
+                return NotFound();
             }
-            catch (Exception ex)
+
+            var players = _teamService.GetPlayersByTeamName(team.TeamName);
+            var viewModel = new TeamDetailsViewModel
             {
-                _logger.LogError(ex, "An error occurred while processing request in TeamController");
-                return RedirectToAction("Error", "Home");
-            }
+                Team = team,
+                Players = players
+            };
+
+            return View(viewModel);
         }
-
-        [HttpPost]
-        public IActionResult Edit(Team team)
+        catch (Exception ex)
         {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    if (team.Id == 0) context.Teams.Add(team);
-                    else context.Teams.Update(team);
-                    context.SaveChanges();
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ViewBag.Action = (team.Id == 0) ? "Add" : "Edit";
-                    return View(team);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while processing request in TeamController");
-                return RedirectToAction("Error", "Home");
-            }
+            _logger.LogError(ex, "Error in Details action of TeamController");
+            return RedirectToAction("Error", "Home");
         }
+    }
 
-        [Authorize]
-        [HttpGet]
-        public IActionResult Delete(int id)
+    [Authorize]
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        try
         {
-            try
+            var team = _teamService.GetTeam(id);
+            if (team == null)
             {
-                var team = context.Teams.Find(id);
-                return View(team);
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while processing request in TeamController");
-                return RedirectToAction("Error", "Home");
-            }
+
+            return View(team);
         }
-
-        [HttpPost]
-        public IActionResult Delete(Team team)
+        catch (Exception ex)
         {
-            try
+            _logger.LogError(ex, "Error in Edit[GET] action of TeamController");
+            return RedirectToAction("Error", "Home");
+        }
+    }
+
+    [Authorize]
+    [HttpPost]
+    public IActionResult Edit(Team team)
+    {
+        try
+        {
+            if (ModelState.IsValid)
             {
-                context.Teams.Remove(team);
-                context.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                _teamService.UpdateTeam(team);
+                return RedirectToAction("Index");
             }
-            catch (Exception ex)
+
+            return View(team);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error in Edit[POST] action of TeamController");
+            return RedirectToAction("Error", "Home");
+        }
+    }
+
+    [Authorize]
+    [HttpGet]
+    public IActionResult Delete(int id)
+    {
+        try
+        {
+            var team = _teamService.GetTeam(id);
+            if (team == null)
             {
-                _logger.LogError(ex, "An error occurred while processing request in TeamController");
-                return RedirectToAction("Error", "Home");
+                return NotFound();
             }
+
+            return View(team);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error in Delete[GET] action of TeamController");
+            return RedirectToAction("Error", "Home");
+        }
+    }
+
+    [Authorize]
+    [HttpPost, ActionName("Delete")]
+    public IActionResult DeleteConfirmed(int id)
+    {
+        try
+        {
+            var team = _teamService.GetTeam(id);
+            if (team == null)
+            {
+                return NotFound();
+            }
+
+            _teamService.DeleteTeam(team);
+            return RedirectToAction("Index");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error in Delete[POST] action of TeamController");
+            return RedirectToAction("Error", "Home");
         }
     }
 }
