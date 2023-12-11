@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using VolleyballFinal.Models;
 using VolleyballFinal.Models.Admin;
 using Microsoft.Extensions.Configuration;
+using VolleyballFinal.Controllers.Service;
 
 namespace VolleyballFinal
 {
@@ -14,11 +15,14 @@ namespace VolleyballFinal
 
             builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<TeamContext>().AddDefaultTokenProviders();
 
-            builder.Services.AddDbContext<TeamContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("TeamContext")));
-            builder.Services.AddControllersWithViews();
-
             builder.Services.AddDbContext<TeamContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("TeamContext")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("TeamContext")));
+
+            builder.Services.AddScoped<TeamService>();
+            builder.Services.AddScoped<PlayerService>();
+            builder.Services.AddScoped<StatisticService>();
+
+            builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 
@@ -27,15 +31,9 @@ namespace VolleyballFinal
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();
@@ -64,8 +62,8 @@ namespace VolleyballFinal
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers(); 
-                endpoints.MapControllerRoute( 
+                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
