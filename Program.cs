@@ -22,6 +22,9 @@ namespace VolleyballFinal
             builder.Services.AddScoped<PlayerService>();
             builder.Services.AddScoped<StatisticService>();
 
+            builder.Services.AddMemoryCache();
+            builder.Services.AddSession();
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
@@ -40,6 +43,8 @@ namespace VolleyballFinal
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();

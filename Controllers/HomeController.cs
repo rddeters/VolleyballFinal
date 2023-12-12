@@ -9,6 +9,7 @@ namespace VolleyballFinal.Controllers
         private TeamContext context { get; set; }
         public HomeController(TeamContext ctx) => context = ctx;
 
+
         public IActionResult Index()
         {
             return View();
