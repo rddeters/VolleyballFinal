@@ -1,9 +1,10 @@
 {
   "dependencies": {
     "mssql1": {
-      "serviceConnectorResourceId": "",
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/sisink/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsTeamContext_BE2DBD4989",
       "secretStore": "AzureAppSettings",
-      "type": "mssql.onprem",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/volleyballfinaldbserver/databases/VolleyballFinal_db",
+      "type": "mssql.azure",
       "connectionId": "ConnectionStrings:TeamContext",
       "dynamicId": null
     }
